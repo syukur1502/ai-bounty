@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/YourContract.sol": {
+      "content": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.8.0 <0.9.0;\r\n\r\ncontract YourContract {\r\n\r\n    struct Task {\r\n        uint256 id;\r\n        string description;\r\n        uint256 reward;\r\n        bool isCompleted;\r\n        address completedBy;\r\n        string result; // <--- KOLOM BARU: Tempat Jawaban AI\r\n    }\r\n\r\n    mapping(uint256 => Task) public tasks;\r\n    uint256 public taskCount = 0;\r\n\r\n    event TaskCreated(uint256 id, string description, uint256 reward);\r\n    event TaskCompleted(uint256 id, address agent, string result); // Event juga diupdate\r\n\r\n    function postTask(string memory _description) public payable {\r\n        require(msg.value > 0, \"Reward harus lebih dari 0!\");\r\n        \r\n        taskCount++;\r\n        tasks[taskCount] = Task(\r\n            taskCount,\r\n            _description,\r\n            msg.value,\r\n            false,\r\n            address(0),\r\n            \"\" // Awalnya jawaban kosong\r\n        );\r\n\r\n        emit TaskCreated(taskCount, _description, msg.value);\r\n    }\r\n\r\n    // Fungsi ini kita update supaya Agent bisa setor jawaban (_result)\r\n    function completeTask(uint256 _taskId, string memory _result) public {\r\n        Task storage task = tasks[_taskId];\r\n\r\n        require(task.id != 0, \"Tugas tidak ditemukan!\");\r\n        require(!task.isCompleted, \"Tugas sudah selesai bos!\");\r\n\r\n        task.isCompleted = true;\r\n        task.completedBy = msg.sender;\r\n        task.result = _result; // Simpan jawaban AI ke Blockchain\r\n\r\n        (bool success, ) = payable(msg.sender).call{value: task.reward}(\"\");\r\n        require(success, \"Gagal transfer uang\");\r\n\r\n        emit TaskCompleted(_taskId, msg.sender, _result);\r\n    }\r\n\r\n    function getBalance() public view returns (uint256) {\r\n        return address(this).balance;\r\n    }\r\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
