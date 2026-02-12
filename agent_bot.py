@@ -5,10 +5,10 @@ from web3 import Web3
 
 # ================= KONFIGURASI =================
 # 1. TEMPEL API KEY GOOGLE ANDA DI SINI
-API_KEY = "AIzaSyCZIYYvcOniVtb_gRU9HomonAtQANYtSk8" 
+API_KEY = "" 
 
 # 2. ALAMAT KONTRAK (Sama seperti kemarin)
-CONTRACT_ADDRESS = "0xa75Ad0a22e3c839FB81cB2199d2E01ccd9d52fa1"
+CONTRACT_ADDRESS = ""
 # ===============================================
 
 RPC_URL = "https://1rpc.io/sepolia"
