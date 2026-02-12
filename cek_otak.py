@@ -1,7 +1,7 @@
 import google.generativeai as genai
 
 # 1. Pastikan API KEY Anda ada di sini (Cek tanda kutipnya!)
-API_KEY = "AIzaSyCZIYYvcOniVtb_gRU9HomonAtQANYtSk8" 
+API_KEY = " " 
 
 print("Sedang mengetes koneksi ke Google...")
 
