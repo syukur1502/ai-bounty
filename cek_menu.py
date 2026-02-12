@@ -1,7 +1,7 @@
 import google.generativeai as genai
 
 # TEMPEL API KEY ANDA DI SINI
-API_KEY = "AIzaSyCZIYYvcOniVtb_gRU9HomonAtQANYtSk8"
+API_KEY = ""
 
 try:
     genai.configure(api_key=API_KEY)
